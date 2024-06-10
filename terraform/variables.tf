@@ -105,3 +105,20 @@ variable "eks_cluster" {
     scaling_config_min_size           = 2
   }
 }
+
+variable "ecr_repositories" {
+  type = list(object({
+    name                 = string
+    image_tag_mutability = string
+  }))
+
+  default = [{
+    name                 = "devops-cloud/prod/backend"
+    image_tag_mutability = "MUTABLE"
+    },
+    {
+      name                 = "devops-cloud/prod/frontend"
+      image_tag_mutability = "MUTABLE"
+  }]
+}
+
