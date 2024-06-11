@@ -37,6 +37,7 @@ Utilizar IAC
   - [x] [Instalação do Docker](https://docs.docker.com/engine/install/)
   - [x] [Instalação do Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
   - [x] [Instalação do Helm](https://helm.sh/docs/intro/install/)
+  - [x] [Instalação do eksctl](https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-eksctl.html)
 - [x] [Preparar um Setup network na aws com o Terraform]
   - [x] Definição de faixas de ip a serem utilizadas
   - [x] 1 Vpc
@@ -56,6 +57,7 @@ Utilizar IAC
 ## 📄 Referências
 
 - [Documentação AWS resources Terraform](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
-- [Ansible - Boas práticas](https://docs.ansible.com/ansible/2.8/user_guide/playbooks_best_practices.html#best-practices)
+- [Ansible - Best Practices](https://docs.ansible.com/ansible/2.8/user_guide/playbooks_best_practices.html#best-practices)
 - [Instalação so AWS Load Balancer Controller usando Helm ](https://docs.aws.amazon.com/eks/latest/userguide/lbc-helm.html)
 - [Enabling IAM Roles for Service Accounts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) 
+- [Ansible - Run Your First Command and Playbook](https://docs.ansible.com/ansible/latest/network/getting_started/first_playbook.html)
