@@ -40,19 +40,20 @@ Utilizar IAC
   - [x] [Instalação do eksctl](https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-eksctl.html)
 - [x] [Preparar um Setup network na aws com o Terraform]
   - [x] Definição de faixas de ip a serem utilizadas
-  - [x] [1 Vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc)
-  - [x] 2 Subnets Públicas
-  - [x] 2 Subnets Privadas
-  - [x] 1 Internt Gateway
-  - [x] 1 Nat Gateway
-  - [x] [2 Route Table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table)
-  - [x] [1 Route Table associada a Subnet Pública e 1 Route Table associada a Subnet Privada](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association)
+  - [x] [1 Vpc](/terraform/vpc.tf)
+  - [x] [2 Subnets Públicas](/terraform/vpc.public-subnetes.tf)
+  - [x] [2 Subnets Privadas](/terraform/vpc.private-subnetes.tf)
+  - [x] [1 Internt Gateway](/terraform/vpc.internetgateway.tf)
+  - [x] [1 Nat Gateway](/terraform/vpc.nat-gateway.tf)
+  - [x] [1 Route Table Pública](/terraform/vpc.public-route-table.tf)
+  - [x] [1 Route Table Privada](/terraform/vpc.private-route-table.tf)
 - [x] Subir Cluster Kubernetes
-  - [x] [EKS](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster)
-  - [x] [Node Groups](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group)
-  - [ ] [Permissionamento ao Cluster e Node Groups - Example IAM Role for EKS Node Group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group)
-- [ ] [ECR](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster)
-- [ ] [Playbook Ansible para Instalar AWS Load Balancer](https://docs.aws.amazon.com/eks/latest/userguide/lbc-helm.html)
+  - [x] [EKS](/terraform/eks.cluster.tf)
+  - [x] [Node Groups](/terraform/eks.cluster.node-group.tf)
+  - [x] [Permissionamento ao Cluster](/terraform/eks.cluster.permissions.tf)
+  - [x] [Permissionamento Node Groups - Example IAM Role for EKS Node Group](/terraform/eks.cluster.node-group.permissions.tf)
+- [ ] [ECR](/terraform/ecr.repository.tf)
+- [ ] [Playbook Ansible para Instalar AWS Load Balancer](/ansible/site.yaml)
 
 
 ## 📄 Referências
@@ -63,3 +64,4 @@ Utilizar IAC
 - [Enabling IAM Roles for Service Accounts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) 
 - [Ansible - Run Your First Command and Playbook](https://docs.ansible.com/ansible/latest/network/getting_started/first_playbook.html)
 - [Install the AWS Load Balancer Controller using Helm](https://docs.aws.amazon.com/eks/latest/userguide/lbc-helm.html)
+- [Creating or updating Kubeconfig file for an Amazon EKS cluster](https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html)
