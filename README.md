@@ -40,18 +40,19 @@ Utilizar IAC
   - [x] [Instalação do eksctl](https://docs.aws.amazon.com/emr/latest/EMR-on-EKS-DevelopmentGuide/setting-up-eksctl.html)
 - [x] [Preparar um Setup network na aws com o Terraform]
   - [x] Definição de faixas de ip a serem utilizadas
-  - [x] 1 Vpc
+  - [x] [1 Vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc)
   - [x] 2 Subnets Públicas
   - [x] 2 Subnets Privadas
   - [x] 1 Internt Gateway
   - [x] 1 Nat Gateway
-  - [x] 1 Route Table associada a subnet pública
-  - [x] 1 Route Table associada a subnet privada
+  - [x] [2 Route Table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table)
+  - [x] [1 Route Table associada a Subnet Pública e 1 Route Table associada a Subnet Privada](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association)
 - [x] Subir Cluster Kubernetes
   - [x] [EKS](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster)
   - [x] [Node Groups](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group)
   - [ ] [Permissionamento ao Cluster e Node Groups - Example IAM Role for EKS Node Group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group)
 - [ ] [ECR](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster)
+- [ ] [Playbook Ansible para Instalar AWS Load Balancer](https://docs.aws.amazon.com/eks/latest/userguide/lbc-helm.html)
 
 
 ## 📄 Referências
@@ -61,3 +62,4 @@ Utilizar IAC
 - [Instalação so AWS Load Balancer Controller usando Helm ](https://docs.aws.amazon.com/eks/latest/userguide/lbc-helm.html)
 - [Enabling IAM Roles for Service Accounts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) 
 - [Ansible - Run Your First Command and Playbook](https://docs.ansible.com/ansible/latest/network/getting_started/first_playbook.html)
+- [Install the AWS Load Balancer Controller using Helm](https://docs.aws.amazon.com/eks/latest/userguide/lbc-helm.html)
