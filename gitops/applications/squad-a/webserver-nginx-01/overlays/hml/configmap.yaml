@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webserver-nginx-01-cfg
+data:
+  body: >
+    <html>
+      <style>
+        body {
+          background-color: #222;
+        }
+        p {
+          font-family:"Courier New";
+          font-size:xx-large;
+          color:#fff;
+          text-align:center;
+        }
+      </style>
+      <body>
+        <p> Squad: A </p>
+        <p> Env: Staging GitOps Lab  </p>
+      </body>
+    </html>
+  nginx.conf: >
+    server {
+      listen 80;
+
+      location /hom {
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+        try_files $uri $uri/ /index.html =404;
+      }
+
+       include /etc/nginx/extra-conf.d/*.conf;
+    }

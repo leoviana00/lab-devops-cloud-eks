@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+- ../../base
+
+resources:
+- configmap.yaml
+
+namespace: webserver-hom
+
+commonLabels:
+  env: hom
+
+commonAnnotations:
+  note: Staging deployment of webserver-nginx-01
+
+# patches using local files
+
+patchesStrategicMerge:
+# Resource and Limits
+- deployment.yaml
+# Replicas count
+- hpa.yaml
+# Gateway and prefix
+- vs.yaml

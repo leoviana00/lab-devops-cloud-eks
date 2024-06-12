@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: webserver-nginx-01-virtualservice
+spec:
+  gateways:
+    - webserver-hom/squad-a-nginx-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /hom
+      route:
+        - destination:
+            host: webserver-nginx-01-svc.webserver-hom.svc.cluster.local
