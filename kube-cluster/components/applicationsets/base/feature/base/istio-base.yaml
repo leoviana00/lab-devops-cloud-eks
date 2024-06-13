@@ -9,7 +9,7 @@ metadata:
 spec:
   project: features
   source:
-   repoURL: "https://github.com/leoviana00/lab-devops-cloud-eks.git"
+   repoURL: "https://istio-release.storage.googleapis.com/charts"
    chart: "istio-base"
    targetRevision: 1.22.1
    helm:
