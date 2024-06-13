@@ -83,7 +83,7 @@
     - name: Install Argocd Chart
       kubernetes.core.helm:
           name: argo-cd
-          namespace: argo-cd
+          namespace: argo
           create_namespace: true
           chart_ref: argocd/argo-cd
           values:
