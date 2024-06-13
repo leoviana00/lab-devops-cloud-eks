@@ -1,105 +1,115 @@
-- name: Installing ALB Controller
+---
+
+- name: Install Feature Kubernetes
   gather_facts: false
-  hosts: localhost
-  vars:
-    eks_cluster: devops-cloud-eks-cluster
-    account_id: 211125593327
-    aws_region: us-east-1
+  hosts: k8s-lab-master-1
   tasks:
 
-    - name: Download IAM Policy
+    #Update SO
+    - name: Update S0
       shell: |
-        curl https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json
-      register: iam_policy_output
+        sudo apt update
+      register: content_update
 
-    - name: Verify if exists IAM Policy called AWSLoadBalancerControllerIAMPolicy
-      shell: |
-        aws iam list-policies | grep AWSLoadBalancerControllerIAMPolicy | wc -l 
-      register: iam_policy_contents
-
-    - name: Display policy AWSLoadBalancerControllerIAMPolicy exist
+    - name: Display the config
       debug:
-        msg: "The IAM Policy AWSLoadBalancerControllerIAMPolicy exist: {{ iam_policy_contents.stdout.find('AWSLoadBalancerControllerIAMPolicy') != 0 }}"
-      when: iam_policy_contents.stdout.find('AWSLoadBalancerControllerIAMPolicy') != 0
+        var: content_update
+    
+    #Kubeconfig
+    - name: create .kube directory
+      become: yes
+      become_user: root
+      file:
+        path: $HOME/.kube
+        state: directory
+        mode: 0755
 
-    - name: Display policy AWSLoadBalancerControllerIAMPolicy not found
+    - name: copy admin.conf to user's kube config
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: $HOME/.kube/config
+        remote_src: yes
+        owner: "{{ ansible_user }}"
+    
+    #Teste com kubectl get node
+    - name: Get nodes.
+      shell: |
+        kubectl get nodes
+      register: get_nodes
+
+    - name: Display Get nodes
       debug:
-        msg: "The IAM Policy AWSLoadBalancerControllerIAMPolicy exist: {{ iam_policy_contents.stdout.find('AWSLoadBalancerControllerIAMPolicy') == 0 }}"
-      when: iam_policy_contents.stdout.find('AWSLoadBalancerControllerIAMPolicy') == 0
-
-    - name: Create IAM Policy
+        var: get_nodes.stdout_lines
+    
+    #Install Helm
+    - name: Install Helm
       shell: |
-        aws iam create-policy \
-        --policy-name AWSLoadBalancerControllerIAMPolicy \
-        --policy-document '{{ iam_policy_output.stdout }}'
-      when: iam_policy_contents.stdout.find('AWSLoadBalancerControllerIAMPolicy') == 0
-      register: create_iam_policy_output
+        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        chmod 700 get_helm.sh
+        ./get_helm.sh
+      register: helm_install
 
-    - name: Create IAM Policy (Output)
+    - name: Display helm install
       debug:
-        var: create_iam_policy_output
+        var: helm_install.stdout_lines
 
-    - name: Create IAM Service Account
-      shell: |
-        eksctl create iamserviceaccount \
-        --cluster={{ eks_cluster }} \
-        --namespace=kube-system \
-        --name=aws-load-balancer-controller \
-        --role-name AmazonEKSLoadBalancerControllerRole \
-        --attach-policy-arn=arn:aws:iam::{{ account_id }}:policy/AWSLoadBalancerControllerIAMPolicy \
-        --approve
-      register: create_iam_service_account_output
+    #Ensure K8s module dependencies are installed.
+    #Doc: https://docs.ansible.com/ansible/latest/collections/kubernetes/core/k8s_info_module.html#return-resources
+    - name: install pre-requisites
+      pip:
+        name:
+          - pyyaml
+          - kubernetes 
 
-    - name: Create IAM Service Account (Output)
+    # Instalação ARGOCD
+    # Add Repositório Helm
+    - name: Add helm repo Argocd
+      kubernetes.core.helm_repository:
+          name: argocd
+          repo_url: "https://argoproj.github.io/argo-helm"
+    
+    # Instalação Argo CD
+    - name: Install Argocd Chart
+      kubernetes.core.helm:
+          name: argo-cd
+          namespace: argo-cd
+          create_namespace: true
+          chart_ref: argocd/argo-cd
+          values:
+            dex:
+              enabled: false
+            configs:
+              params:
+                  server:
+                      insecure: true
+            server:
+              extraArgs:
+                - --insecure
+              config:
+                repositories: |
+                  - type: helm
+                    name: argo-cd
+                    url: https://argoproj.github.io/argo-helm
+
+
+    - name: Get a list of all service objects
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Service
+        namespace: argo-cd
+      register: service_list
+
+    - name: Print Argo-cd Service.
       debug:
-        var: create_iam_service_account_output.stdout
+        var: service_list.resources[0].spec.ports[0]
 
-    - name: Download Helm installation script
-      get_url:
-        url: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-        dest: /tmp/get_helm.sh
-        mode: '0755'
+    - name: Get a list of all namespace argo-cd
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Pod
+        namespace: argo-cd
+      register: pod_list
 
-    - name: Run Helm installation script
-      command: /tmp/get_helm.sh
-      args:
-        creates: /usr/local/bin/helm
-      register: helm_install_result
-      changed_when: false
-
-    - name: Add /usr/local/bin to PATH
-      lineinfile:
-        path: ~/.bashrc
-        line: 'export PATH=$PATH:/usr/local/bin'
-      when: helm_install_result.rc == 0
-
-    - name: Helm Repository Add and Update
-      shell: |
-        helm repo add eks https://aws.github.io/eks-charts
-        helm repo update eks
-      register: helm_repo_output
-
-    - name: Helm Repository Add and Update (Output)
+    - name: Display pods argo-cd
       debug:
-        var: helm_repo_output.stdout
-
-    - name: Update Kubeconfig
-      shell: |
-        aws eks update-kubeconfig --region {{ aws_region }} --name {{ eks_cluster }}
-
-    - name: Helm Install EKS ALB Controller
-      shell: |
-        helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-controller \
-        -n kube-system \
-        --set clusterName={{ eks_cluster }} \
-        --set serviceAccount.create=false \
-        --set serviceAccount.name=aws-load-balancer-controller 
-
-    - name: Verify that the controller is installed
-      shell: |
-        kubectl get deployment -n kube-system aws-load-balancer-controller
-      register: controller_output
-
-    - name: Verify that the controller is installed (Output)
-      debug:
-        var: controller_output.stdout_lines
+        var: pod_list | json_query('resources[].[metadata.name, metadata.namespace]')

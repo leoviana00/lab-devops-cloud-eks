@@ -1,0 +1,105 @@
+- name: Installing ALB Controller
+  gather_facts: false
+  hosts: localhost
+  vars:
+    eks_cluster: devops-cloud-eks-cluster
+    account_id: 211125593327
+    aws_region: us-east-1
+  tasks:
+
+    - name: Download IAM Policy
+      shell: |
+        curl https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.2/docs/install/iam_policy.json
+      register: iam_policy_output
+
+    - name: Verify if exists IAM Policy called AWSLoadBalancerControllerIAMPolicy
+      shell: |
+        aws iam list-policies | grep AWSLoadBalancerControllerIAMPolicy | wc -l 
+      register: iam_policy_contents
+
+    - name: Display policy AWSLoadBalancerControllerIAMPolicy exist
+      debug:
+        msg: "The IAM Policy AWSLoadBalancerControllerIAMPolicy exist: {{ iam_policy_contents.stdout.find('AWSLoadBalancerControllerIAMPolicy') != 0 }}"
+      when: iam_policy_contents.stdout.find('AWSLoadBalancerControllerIAMPolicy') != 0
+
+    - name: Display policy AWSLoadBalancerControllerIAMPolicy not found
+      debug:
+        msg: "The IAM Policy AWSLoadBalancerControllerIAMPolicy exist: {{ iam_policy_contents.stdout.find('AWSLoadBalancerControllerIAMPolicy') == 0 }}"
+      when: iam_policy_contents.stdout.find('AWSLoadBalancerControllerIAMPolicy') == 0
+
+    - name: Create IAM Policy
+      shell: |
+        aws iam create-policy \
+        --policy-name AWSLoadBalancerControllerIAMPolicy \
+        --policy-document '{{ iam_policy_output.stdout }}'
+      when: iam_policy_contents.stdout.find('AWSLoadBalancerControllerIAMPolicy') == 0
+      register: create_iam_policy_output
+
+    - name: Create IAM Policy (Output)
+      debug:
+        var: create_iam_policy_output
+
+    - name: Create IAM Service Account
+      shell: |
+        eksctl create iamserviceaccount \
+        --cluster={{ eks_cluster }} \
+        --namespace=kube-system \
+        --name=aws-load-balancer-controller \
+        --role-name AmazonEKSLoadBalancerControllerRole \
+        --attach-policy-arn=arn:aws:iam::{{ account_id }}:policy/AWSLoadBalancerControllerIAMPolicy \
+        --approve
+      register: create_iam_service_account_output
+
+    - name: Create IAM Service Account (Output)
+      debug:
+        var: create_iam_service_account_output.stdout
+
+    - name: Download Helm installation script
+      get_url:
+        url: https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        dest: /tmp/get_helm.sh
+        mode: '0755'
+
+    - name: Run Helm installation script
+      command: /tmp/get_helm.sh
+      args:
+        creates: /usr/local/bin/helm
+      register: helm_install_result
+      changed_when: false
+
+    - name: Add /usr/local/bin to PATH
+      lineinfile:
+        path: ~/.bashrc
+        line: 'export PATH=$PATH:/usr/local/bin'
+      when: helm_install_result.rc == 0
+
+    - name: Helm Repository Add and Update
+      shell: |
+        helm repo add eks https://aws.github.io/eks-charts
+        helm repo update eks
+      register: helm_repo_output
+
+    - name: Helm Repository Add and Update (Output)
+      debug:
+        var: helm_repo_output.stdout
+
+    - name: Update Kubeconfig
+      shell: |
+        aws eks update-kubeconfig --region {{ aws_region }} --name {{ eks_cluster }}
+
+    - name: Helm Install EKS ALB Controller
+      shell: |
+        helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-controller \
+        -n kube-system \
+        --set clusterName={{ eks_cluster }} \
+        --set serviceAccount.create=false \
+        --set serviceAccount.name=aws-load-balancer-controller 
+
+    - name: Verify that the controller is installed
+      shell: |
+        kubectl get deployment -n kube-system aws-load-balancer-controller
+      register: controller_output
+
+    - name: Verify that the controller is installed (Output)
+      debug:
+        var: controller_output.stdout_lines

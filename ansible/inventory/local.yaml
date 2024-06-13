@@ -1,0 +1,11 @@
+---
+all:
+  vars:
+    ambiente: local
+    eks_cluster: devops-cloud-eks-cluster
+    account_id: 211125593327
+    aws_region: us-east-1
+
+  hosts:
+    local:
+      ansible_host: 127.0.0.1
