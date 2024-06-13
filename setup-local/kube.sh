@@ -1,0 +1,1 @@
+ansible-playbook -i inventory/lab-k8s/hosts.yaml --become -u vagrant --become-user=root cluster.yml

@@ -1,0 +1,31 @@
+machines = {
+  "k8s-m01"                => {"memory" => "2048", "cpu" => "2", "ip" => "11", "image" => "debian/bullseye64"},
+#   "k8s-m02"                => {"memory" => "2048", "cpu" => "2", "ip" => "12", "image" => "debian/bullseye64"},
+  "k8s-n01"                 => {"memory" => "2048", "cpu" => "2", "ip" => "21", "image" => "debian/bullseye64"},
+#   "k8s-n02"                 => {"memory" => "2048", "cpu" => "2", "ip" => "22", "image" => "debian/bullseye64"},
+  "k8s-etcd01"             => {"memory" => "2048", "cpu" => "2", "ip" => "31", "image" => "debian/bullseye64"},
+  "k8s-rr01"               => {"memory" => "2048", "cpu" => "2", "ip" => "41", "image" => "debian/bullseye64"},
+}
+
+Vagrant.configure("2") do |config|
+    machines.each do |name, conf|
+        config.vm.define "#{name}" do |machine|
+            machine.vm.box = "#{conf["image"]}"
+            machine.vm.hostname = "#{name}.lab.k8s.io"
+            machine.vm.network "private_network", ip: "192.168.50.#{conf["ip"]}"
+            machine.vm.provision "shell" do |s|
+                ssh_pub_key = File.readlines("../../keys/key.pub").first.strip
+                s.inline = <<-SHELL
+                echo "Ambiente para laboratório e estudos: K8s com kubesray para estudos da CKS" > /tmp/vagrant.txt
+                echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+                apt-get update -y
+            SHELL
+            end
+            machine.vm.provider "virtualbox" do |vb|
+                vb.name = "#{name}"
+                vb.memory = conf["memory"]
+                vb.cpus = conf["cpu"]
+            end
+        end
+    end
+end
