@@ -4,11 +4,11 @@ kind: Kustomization
 resources:
 - ../../base
 
-patches:
-  - patch: |-
+# patches:
+#   - patch: |-
 
-    target:
-      group: argoproj.io
-      version: v1alpha1
-      kind: Application
-      name: helm-istio-base
+#     target:
+#       group: argoproj.io
+#       version: v1alpha1
+#       kind: Application
+#       name: helm-istio-base
