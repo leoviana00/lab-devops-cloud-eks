@@ -3,6 +3,7 @@
 - name: Install Feature Kubernetes
   gather_facts: false
   hosts: k8s-lab-master-1
+
   tasks:
 
     #Update SO
@@ -40,7 +41,17 @@
     - name: Display Get nodes
       debug:
         var: get_nodes.stdout_lines
-    
+
+    - name: Install pip3
+      package:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items:
+        - python3-dev
+        - python3-pip
+        - python3-setuptools
+      
     #Install Helm
     - name: Install Helm
       shell: |
