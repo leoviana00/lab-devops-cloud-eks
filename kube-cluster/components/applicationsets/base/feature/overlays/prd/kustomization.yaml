@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../base
+
+patches:
+  - patch: |-
+
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: helm-istio-base
