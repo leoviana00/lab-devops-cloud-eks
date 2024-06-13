@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: helm-iistio-base
+  name: helm-istio-base
   namespace: argo-cd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -9,7 +9,7 @@ metadata:
 spec:
   project: features
   source:
-   repoURL: "https://istio-release.storage.googleapis.com/charts"
+   repoURL: "https://github.com/leoviana00/lab-devops-cloud-eks.git"
    chart: "istio-base"
    targetRevision: 1.22.1
    helm:
