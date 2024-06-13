@@ -3,6 +3,17 @@ site.retry
 *.retry
 **/.retry
 
+# Editor
+.vscode
+
+# vagrant
+*.vagrant
+**/.vagrant
+
+# keys
+**/key.pub
+**/key
+
 # Local .terraform directories
 **/.terraform/*
 

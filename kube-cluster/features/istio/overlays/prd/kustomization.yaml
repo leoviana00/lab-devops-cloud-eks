@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../../base
+
+patches:
+  - patch: |-
+      # - op: replace
+      #   path: /spec/source/helm/values
+      #   value: |
+      #     replicaCount: 3
+      #     service:
+      #       type: NodePort
+            # annotations: {
+            #   service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+            # }
+
+    target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: helm-istio-base
