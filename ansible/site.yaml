@@ -107,7 +107,7 @@
       kubernetes.core.k8s_info:
         api_version: v1
         kind: Service
-        namespace: argo
+        namespace: argo-cd
       register: service_list
 
     - name: Print Argo-cd Service.
@@ -118,7 +118,7 @@
       kubernetes.core.k8s_info:
         api_version: v1
         kind: Pod
-        namespace: argo
+        namespace: argo-cd
       register: pod_list
 
     - name: Display pods argo-cd
