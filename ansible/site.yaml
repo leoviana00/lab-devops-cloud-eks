@@ -1,126 +1,44 @@
 ---
 
-- name: Install Feature Kubernetes
+- name: Requirements Install
   gather_facts: false
   hosts: k8s-lab-master-1
+  remote_user: vagrant
+  become: true
+  tags: requirements
+  roles:
+    - role: requirements_configure
 
-  tasks:
+- name: Update Kubeconfig
+  gather_facts: false
+  hosts: k8s-lab-master-1
+  remote_user: vagrant
+  become: true
+  tags: kubeconfig
+  roles:
+    - role: kubeconfig_configure
 
-    #Update SO
-    - name: Update S0
-      shell: |
-        sudo apt update
-      register: content_update
+- name: Install Helm
+  gather_facts: false
+  hosts: k8s-lab-master-1
+  remote_user: vagrant
+  become: true
+  tags: helm
+  roles:
+    - role: helm_configure
 
-    - name: Display the config
-      debug:
-        var: content_update
-    
-    #Kubeconfig
-    - name: create .kube directory
-      become: yes
-      become_user: root
-      file:
-        path: $HOME/.kube
-        state: directory
-        mode: 0755
+- name: Install Argo CD
+  gather_facts: false
+  hosts: k8s-lab-master-1
+  remote_user: vagrant
+  become: true
+  tags: argo
+  roles:
+    - role: argocd_configure
 
-    - name: copy admin.conf to user's kube config
-      copy:
-        src: /etc/kubernetes/admin.conf
-        dest: $HOME/.kube/config
-        remote_src: yes
-        owner: "{{ ansible_user }}"
-    
-    #Teste com kubectl get node
-    - name: Get nodes.
-      shell: |
-        kubectl get nodes
-      register: get_nodes
-
-    - name: Display Get nodes
-      debug:
-        var: get_nodes.stdout_lines
-
-    - name: Install pip3
-      package:
-        name: "{{ item }}"
-        state: present
-        update_cache: yes
-      with_items:
-        - python3-dev
-        - python3-pip
-        - python3-setuptools
-      
-    #Install Helm
-    - name: Install Helm
-      shell: |
-        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-        chmod 700 get_helm.sh
-        ./get_helm.sh
-      register: helm_install
-
-    - name: Display helm install
-      debug:
-        var: helm_install.stdout_lines
-
-    #Ensure K8s module dependencies are installed.
-    #Doc: https://docs.ansible.com/ansible/latest/collections/kubernetes/core/k8s_info_module.html#return-resources
-    - name: install pre-requisites
-      pip:
-        name:
-          - pyyaml
-          - kubernetes 
-
-    # Instalação ARGOCD
-    # Add Repositório Helm
-    - name: Add helm repo Argocd
-      kubernetes.core.helm_repository:
-          name: argocd
-          repo_url: "https://argoproj.github.io/argo-helm"
-    
-    # Instalação Argo CD
-    - name: Install Argocd Chart
-      kubernetes.core.helm:
-          name: argo-cd
-          namespace: argo-cd
-          create_namespace: true
-          chart_ref: argocd/argo-cd
-          values:
-            dex:
-              enabled: false
-            configs:
-              params:
-                  server:
-                      insecure: true
-            server:
-              extraArgs:
-                - --insecure
-              config:
-                repositories: |
-                  - type: helm
-                    name: argo-cd
-                    url: https://argoproj.github.io/argo-helm
-
-
-    - name: Get a list of all service objects
-      kubernetes.core.k8s_info:
-        api_version: v1
-        kind: Service
-        namespace: argo-cd
-      register: service_list
-
-    - name: Print Argo-cd Service.
-      debug:
-        var: service_list.resources[0].spec.ports[0]
-
-    - name: Get a list of all namespace argo-cd
-      kubernetes.core.k8s_info:
-        api_version: v1
-        kind: Pod
-        namespace: argo-cd
-      register: pod_list
-
-    - name: Display pods argo-cd
-      debug:
-        var: pod_list | json_query('resources[].[metadata.name, metadata.namespace]')
+- name: Installing ALB Controller
+  gather_facts: false
+  hosts: localhost
+  tags: alb
+  roles:
+    - role: alb_configure

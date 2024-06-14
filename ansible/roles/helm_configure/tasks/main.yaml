@@ -1,0 +1,17 @@
+---
+- name: Install Helm
+  shell: |
+    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+    chmod 700 get_helm.sh
+    ./get_helm.sh
+  register: helm_install
+
+- name: Display helm install (Output)
+  debug:
+    var: helm_install.stdout_lines
+
+- name: Install dependencies
+  pip:
+    name:
+      - pyyaml
+      - kubernetes 

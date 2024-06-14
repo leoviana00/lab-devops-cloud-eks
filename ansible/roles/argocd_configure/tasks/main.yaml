@@ -1,0 +1,49 @@
+---
+- name: Add helm repo Argocd
+  kubernetes.core.helm_repository:
+      name: argocd
+      repo_url: "https://argoproj.github.io/argo-helm"
+
+- name: Install Argocd Chart
+  kubernetes.core.helm:
+      name: argo-cd
+      namespace: argo-cd
+      create_namespace: true
+      chart_ref: argocd/argo-cd
+      values:
+        dex:
+          enabled: false
+        configs:
+          params:
+              server:
+                  insecure: true
+        server:
+          extraArgs:
+            - --insecure
+          config:
+            repositories: |
+              - type: helm
+                name: argo-cd
+                url: https://argoproj.github.io/argo-helm
+
+- name: Get a list of all service objects
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Service
+    namespace: argo-cd
+  register: service_list
+
+- name: Print Argo-cd Service (Output)
+  debug:
+    var: service_list.resources[0].spec.ports[0]
+
+- name: Get a list of all namespace argo-cd
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Pod
+    namespace: argo-cd
+  register: pod_list
+
+- name: Display pods argo-cd (Output)
+  debug:
+    var: pod_list | json_query('resources[].[metadata.name, metadata.namespace]')

@@ -1,0 +1,24 @@
+---
+- name: create .kube directory
+  become: yes
+  become_user: root
+  file:
+    path: $HOME/.kube
+    state: directory
+    mode: 0755
+
+- name: Copy admin.conf to user's kube config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: $HOME/.kube/config
+    remote_src: yes
+    owner: "{{ ansible_user }}"
+  
+- name: Get nodes test
+  shell: |
+    kubectl get nodes
+  register: get_nodes
+
+- name: Display Get nodes (output)
+  debug:
+    var: get_nodes.stdout_lines
