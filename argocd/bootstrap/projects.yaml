@@ -15,7 +15,7 @@ spec:
       - project: features
   template:
     metadata:
-      name: '{{.project}}-project'
+      name: '{{.project}}'
     spec:
       project: default
       source:
