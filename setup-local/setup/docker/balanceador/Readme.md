@@ -100,53 +100,6 @@
       balance roundrobin
       server K8S_M01 "${SERVER}.11:${PORT_K8S}" check check-ssl verify none inter 2000
 
-  frontend service-nginx
-      mode http
-      option log-health-checks
-      bind "${LISTEN}:80"
-
-      acl dns_nginx hdr(host) -i lab.k8s.io
-
-      # config app teste weight
-      acl path_nginx path_beg -i /
-      use_backend nginx_weight if dns_nginx path_nginx
-
-      # config app teste consistenthash
-      acl path_nginx_hash path_beg -i /hash
-      use_backend nginx_consistenthash if dns_nginx path_nginx_hash
-
-      # config app teste loadbalancer
-      acl path_nginx_lb path_beg -i /lb
-      use_backend nginx_loadbalancer if dns_nginx path_nginx_lb
-
-      # config app teste fault-injection
-      acl path_nginx_injection path_beg -i /injection
-      use_backend nginx_injection if dns_nginx path_nginx_injection
-
-  backend nginx_weight
-      mode http
-      option forwardfor
-      balance leastconn
-      server RR_K8S "${SERVER}.11:${PORT_INGRESS_ISTIO}" check 
-
-  backend nginx_consistenthash
-      mode http
-      option forwardfor
-      balance leastconn
-      server RR_K8S "${SERVER}.11:${PORT_INGRESS_ISTIO}" check 
-
-  backend nginx_loadbalancer
-      mode http
-      option forwardfor
-      balance leastconn
-      server RR_K8S "${SERVER}.11:${PORT_INGRESS_ISTIO}" check 
-
-  backend nginx_injection
-      mode http
-      option forwardfor
-      balance leastconn
-      server RR_K8S "${SERVER}.11:${PORT_INGRESS_ISTIO}" check 
-
   ```
 
 ## Comandos
