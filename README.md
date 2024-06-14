@@ -30,6 +30,10 @@ Utilizar IAC
 
 ## 👣 Roadmap
 
+```console
+- Provisionamento de ambiente na AWS com terraform
+```
+
 - [x] [Instalar pré-requisitos para o projeto ]
   - [x] [Instalação do AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
   - [x] [Instalação do Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
@@ -55,6 +59,28 @@ Utilizar IAC
 - [ ] [ECR](/terraform/ecr.repository.tf)
 - [ ] [Playbook Ansible para Instalar AWS Load Balancer](/ansible/site.yaml)
 
+```console
+- Provisionamento de Setup Kuberntes Local com Kubespray
+```
+- [x] Instalação de pré-requisitos
+  - [x] [Vagrant]
+  - [x] [Virtualbox]
+  - [x] [Ansible]
+- [x] [Preparar arquivos Kubespray]
+- [x] [Preparar vagrantfile para subir as vms]
+- [x] [Balanceador para gerenciamento do Cluster]
+  - [x] Haproxy - Docker Composer
+- [ ] Instalação de features no Cluster
+  - [ ] Helm
+  - [ ] Argo CD
+
+```console
+- Preparar estrutra para GITOPS
+```
+- [ ] [Definir uma estrutura para Gitops]
+  - [ ] ApplicationSets
+  - [ ] ArgoProjects
+  - [ ] Apps
 
 ## 📄 Referências
 
