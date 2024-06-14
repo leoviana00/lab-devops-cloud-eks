@@ -9,7 +9,7 @@ spec:
       repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
       revision: HEAD
       directories:
-      - path: gitops/structure/apps/*
+      - path: gitops/structure/apps/timr1
   template:
     metadata:
       name: 'helm-apps-{{path.basename}}'
