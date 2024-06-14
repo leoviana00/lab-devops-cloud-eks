@@ -9,25 +9,24 @@ spec:
   generators:
   - git:
       repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
-      revision: main
+      revision: HEAD
       directories:
       - path: argocd/components/applicationsets/features/*
   template:
     metadata:
-      name: 'helm-features-{{path.basename}}'
+      name: 'helm-features-{{.path.basename}}'
     spec:
-      project: '{{path.basename}}'
+      project: '{{.path.basename}}'
       source:
         repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
-        targetRevision: main
-        path: argocd/components/applicationsets/features/{{path.basename}}
+        targetRevision: HEAD
+        path: argocd/components/applicationsets/features/{{.path.basename}}
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
         syncOptions:
         - CreateNamespace=true
-
       destination:
         server: 'https://kubernetes.default.svc'
-        namespace: argo-cd
+        namespace: istio-system
