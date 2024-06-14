@@ -1,11 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
   name: helm-istio-base
   namespace: argo-cd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
-
 spec:
   project: features
   source:
