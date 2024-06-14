@@ -19,7 +19,7 @@ spec:
       finalizers:
       - resources-finalizer.argocd.argoproj.io
     spec:
-      project: '{{.path.basename}}'
+      project: features
       source:
         repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
         targetRevision: HEAD
