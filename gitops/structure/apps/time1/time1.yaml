@@ -5,17 +5,17 @@ metadata:
 spec:
   generators:
   - git:
-      repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
+      repoURL: https://github.com/leoviana00/lab-kustomize-app-demo.git
       revision: HEAD
       directories:
-      - path: gitops/time1/*
+      - path: demo-app-argo/bootstrap/overlays/default/
   template:
     metadata:
       name: '{{path}}'
     spec:
       project: time1
       source:
-        repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
+        repoURL: https://github.com/leoviana00/lab-kustomize-app-demo.git
         targetRevision: HEAD
         path: '{{path}}'
       syncPolicy:
