@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-go-01
+  labels:
+    app: webserver-go-01
+spec:
+  selector:
+    matchLabels:
+      app: webserver-go-01
+  template:
+    metadata:
+      labels:
+        app: webserver-go-01
+    spec:
+      containers:
+      - name: webserver-go-01
+        image: cloudacademydevops/webappecho:latest
+        command: ["/go/bin/demo"]
+        ports:
+        - containerPort: 80
+        env:
+        - name: MESSAGE
+          value: "Default Message"
+        - name: BACKGROUND_COLOR
+          valueFrom:
+            configMapKeyRef:
+              name: webserver-go-01-cfg
+              key: bgcolor

@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argocd-apps
+  namespace: argo-cd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
+      revision: HEAD
+      directories:
+      - path: gitops/structure/apps/*
+  template:
+    metadata:
+      name: 'helm-apps-{{path.basename}}'
+    spec:
+      project: '{{path.basename}}'
+      source:
+        repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
+        targetRevision: HEAD
+        path: gitops/structure/apps/{{path.basename}}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
+
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: argo-cd
