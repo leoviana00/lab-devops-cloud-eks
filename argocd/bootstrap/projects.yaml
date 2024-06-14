@@ -2,6 +2,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: argocd-projects
+  namespace: argo-cd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 spec:
   generators:
   - list:
