@@ -20,7 +20,7 @@ spec:
       source:
         repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
         targetRevision: main
-        path: argocd/components/applicationsets/{{path.basename}}
+        path: argocd/components/applicationsets/features/{{path.basename}}
       syncPolicy:
         automated:
           prune: true
