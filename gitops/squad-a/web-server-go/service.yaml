@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: webserver-go-01-svc
+spec:
+  selector:
+    app: webserver-go-01
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 80
