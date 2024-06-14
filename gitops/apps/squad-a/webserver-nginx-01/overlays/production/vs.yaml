@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: webserver-nginx-01-virtualservice
+spec:
+  gateways:
+    - webserver-prod/squad-a-nginx-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /prod
+      route:
+        - destination:
+            host: webserver-nginx-01-svc.webserver-prod.svc.cluster.local

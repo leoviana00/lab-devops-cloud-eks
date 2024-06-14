@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: webserver-go-01
+  namespace: argo-cd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: squad-a
+  source:
+    repoURL: >-
+      https://github.com/leoviana00/lab-kustomize-app-demo.git
+    path: demo-app-argo/apps/squad-a/webserver-go-01/overlays/development
+    targetRevision: dev
+    kustomize:
+      commonAnnotations:
+        app/kustomize: "true"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: webserver-dev

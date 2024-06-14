@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: squad-a-go-gateway
+spec:
+  selector:
+    app: istio-ingressgateway
+  servers:
+  - hosts:
+    - ws.dev.squad.a.go.lab.k8s.io
+    - ws.hom.squad.a.go.lab.k8s.io
+    - ws.squad.a.go.lab.k8s.io
+    port:
+      name: http
+      number: 80
+      protocol: HTTP

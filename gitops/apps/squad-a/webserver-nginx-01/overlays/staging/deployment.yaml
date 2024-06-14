@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-nginx-01
+spec:
+  template:
+    spec:
+      containers:
+      - name: server
+        resources:
+          requests:
+            cpu: 500m
+            memory: "512M"
+          limits:
+            cpu: 1
+            memory: "1G"
+        env:
+        - name: LOG_LEVEL
+          value: "INFO"

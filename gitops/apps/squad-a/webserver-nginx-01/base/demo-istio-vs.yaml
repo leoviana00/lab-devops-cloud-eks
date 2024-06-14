@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: webserver-nginx-01-virtualservice
+spec:
+  gateways:
+    - default/squad-a-nginx-gateway
+  hosts:
+    - squad.a.nginx.lab.k8s.io
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: webserver-nginx-01-svc.default.svc.cluster.local
+            port:
+              number: 8080
+          weight: 100
