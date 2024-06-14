@@ -1,11 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: argocd-features
+  name: argocd-apps
   namespace: argo-cd
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
-
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
 spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
@@ -14,14 +13,14 @@ spec:
       repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
       revision: HEAD
       directories:
-      - path: argocd/components/applicationsets/features/*
+      - path: argocd/components/applicationsets/apps/*
   template:
     metadata:
       name: 'helm-features-{{.path.basename}}'
       finalizers:
       - resources-finalizer.argocd.argoproj.io
     spec:
-      project: features
+      project: '{{.path.basename}}'
       source:
         repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
         targetRevision: HEAD
@@ -34,4 +33,4 @@ spec:
         - CreateNamespace=true
       destination:
         server: 'https://kubernetes.default.svc'
-        namespace: istio-system
+        namespace: argo-cd
