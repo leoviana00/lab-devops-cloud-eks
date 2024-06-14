@@ -13,13 +13,13 @@ spec:
     - projetc: features
   template:
     metadata:
-      name: '{{.project}}-project'
+      name: '{{project}}-project'
     spec:
       project: default
       source:
         repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
         targetRevision: main
-        path: argocd/components/argocdproj/{{.project}}
+        path: argocd/components/argocdproj/{{project}}
       destination:
         server: https://kubernetes.default.svc
         namespace: argo-cd
