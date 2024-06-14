@@ -8,12 +8,12 @@ spec:
       repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
       revision: HEAD
       directories:
-      - path: gitops/squad-a/*
+      - path: gitops/time1/*
   template:
     metadata:
       name: '{{path}}'
     spec:
-      project: squad-a
+      project: time1
       source:
         repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
         targetRevision: HEAD
@@ -27,4 +27,4 @@ spec:
 
       destination:
         server: 'https://kubernetes.default.svc'
-        namespace: squad-a
+        namespace: time1
