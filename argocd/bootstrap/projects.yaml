@@ -8,11 +8,9 @@ metadata:
 spec:
   generators:
   - list:
-      elements:
-      - project: devops
-        url: https://kubernetes.default.svc
-      - projetc: features
-        url: https://kubernetes.default.svc
+    elements:
+    - project: devops
+    - projetc: features
   template:
     metadata:
       name: '{{.project}}-project'
@@ -20,8 +18,8 @@ spec:
       project: default
       source:
         repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
-        targetRevision: HEAD
+        targetRevision: main
         path: argocd/components/argocdproj/{{.project}}
       destination:
-        server: '{{.url}}'
+        server: https://kubernetes.default.svc
         namespace: argo-cd
