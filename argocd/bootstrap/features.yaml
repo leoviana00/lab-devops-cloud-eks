@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: argocd-apps
+  name: argocd-features
   namespace: argo-cd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
@@ -13,14 +13,12 @@ spec:
       repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
       revision: HEAD
       directories:
-      - path: argocd/components/applicationsets/apps/*
+      - path: argocd/components/applicationsets/features/*
   template:
     metadata:
       name: 'helm-features-{{.path.basename}}'
-      finalizers:
-      - resources-finalizer.argocd.argoproj.io
     spec:
-      project: '{{.path.basename}}'
+      project: features
       source:
         repoURL: https://github.com/leoviana00/lab-devops-cloud-eks.git
         targetRevision: HEAD
@@ -29,6 +27,8 @@ spec:
         automated:
           prune: true
           selfHeal: true
+        retry:
+          limit: 5
         syncOptions:
         - CreateNamespace=true
       destination:
