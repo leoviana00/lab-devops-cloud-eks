@@ -8,9 +8,9 @@ metadata:
 spec:
   generators:
   - list:
-    elements:
-    - project: devops
-    - projetc: features
+      elements:
+      - project: devops
+      - projetc: features
   template:
     metadata:
       name: '{{project}}-project'
