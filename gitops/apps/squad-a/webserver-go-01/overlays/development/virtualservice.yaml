@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: webserver-go-01-virtualservice
+spec:
+  gateways:
+    - webserver-dev/squad-a-go-gateway
+  hosts:
+    - ws.dev.squad.a.go.lab.k8s.io
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: webserver-go-01-svc.webserver-dev.svc.cluster.local

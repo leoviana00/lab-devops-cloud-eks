@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-go-01
+spec:
+  template:
+    spec:
+      containers:
+      - name: webserver-go-01
+        env:
+        - name: MESSAGE
+          value: "Squad: A - Application GO -  Staging GitOps Lab"

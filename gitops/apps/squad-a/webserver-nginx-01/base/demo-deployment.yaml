@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver-nginx-01
+  labels:
+    app: webserver-nginx-01
+spec:
+  selector:
+    matchLabels:
+      app: webserver-nginx-01
+  template:
+    metadata:
+      labels:
+        app: webserver-nginx-01
+    spec:
+      containers:
+      - name: server
+        image: nginx:1.17
+        volumeMounts:
+          - name: webserver-nginx-01
+            mountPath: /usr/share/nginx/html
+          - name: nginx-conf
+            readOnly: true
+            mountPath: /etc/nginx/conf.d
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 100m
+            memory: "128M"
+          limits:
+            cpu: 100m
+            memory: "256M"
+        env:
+        - name: LOG_LEVEL
+          value: "DEBUG"
+      volumes:
+      - name: webserver-nginx-01
+        configMap:
+          name: webserver-nginx-01-cfg
+          items:
+          - key: body
+            path: index.html
+      - name: nginx-conf
+        configMap:
+          name: webserver-nginx-01-cfg
+          items:
+          - key: nginx.conf
+            path: default.conf
+          

@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webserver-go-01-cfg
+data:
+  bgcolor: "lime"
