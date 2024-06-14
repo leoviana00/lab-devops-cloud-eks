@@ -10,7 +10,7 @@ spec:
   - list:
       elements:
       - project: devops
-      - projetc: features
+      - project: features
   template:
     metadata:
       name: '{{project}}-project'
