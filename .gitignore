@@ -14,6 +14,15 @@ site.retry
 **/key.pub
 **/key
 
+# config
+*/setup-kubeadm/configs/config
+**/setup-kubeadm/configs/config
+*/setup-kubeadm/configs/join.sh
+**/setup-kubeadm/configs/join.sh
+*/setup-kubeadm/configs/token
+**/setup-kubeadm/configs/token
+
+
 # Local .terraform directories
 **/.terraform/*
 
