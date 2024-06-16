@@ -1,5 +1,5 @@
 ---
-- name: Install Python Packages
+- name: Install Dependencies Packages
   ansible.builtin.package:
     name: "{{ dependencies_packages }}"
     state: present
