@@ -51,7 +51,7 @@ all:
         # k8s-lab-master-1:
         # k8s-lab-master-2:
         k8s-lab-node-1:
-        # k8s-lab-node-2:
+        k8s-lab-node-2:
     # etcd:
     #   hosts:
     #     k8s-lab-etcd-1:
