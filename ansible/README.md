@@ -8,8 +8,8 @@
 O inventário está separado por:
 
 - `eks_cluster.yaml` [ Ambiente AWS]
-- `kubeadm.yaml` [Setup Kubernetes com Kubeadm]
-- `kubespray.yaml` [ Setup Kubernetes com Kubespray]
+- `kubeadm.yaml` [Setup Kubernetes com Kubeadm - Ambiente local]
+- `kubespray.yaml` [ Setup Kubernetes com Kubespray - Ambiente local] 
 
 Ao rodar o playbook posso apontar para o `inventory` que eu quiser a aplicar a configuração.
 
