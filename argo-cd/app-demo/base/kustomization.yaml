@@ -11,4 +11,5 @@ resources:
 - demo-deployment.yaml
 - demo-service.yaml
 - demo-hpa.yaml
-- ingress.yaml
+- demo-istio-gateway.yaml
+- demo-istio-vs.yaml

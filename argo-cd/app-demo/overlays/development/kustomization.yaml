@@ -7,15 +7,13 @@ bases:
 resources:
 - configmap.yaml
 
-namespace: webserver-hom
+namespace: webserver-dev
 
 commonLabels:
-  env: hom
+  env: dev
 
 commonAnnotations:
-  note: Staging deployment of webserver-nginx-01
-
-# patches using local files
+  note: Development deployment of webserver-nginx-01
 
 patchesStrategicMerge:
 # Resource and Limits
@@ -23,4 +21,4 @@ patchesStrategicMerge:
 # Replicas count
 - hpa.yaml
 # Gateway and prefix
-- ingress.yaml
+- vs.yaml

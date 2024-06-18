@@ -21,4 +21,4 @@ patchesStrategicMerge:
 # Replicas count
 - hpa.yaml
 # Gateway and prefix
-- vs.yaml
+- ingress.yaml
