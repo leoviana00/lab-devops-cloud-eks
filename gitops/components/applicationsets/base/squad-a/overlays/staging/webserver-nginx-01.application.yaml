@@ -11,7 +11,7 @@ spec:
     repoURL: >-
       https://github.com/leoviana00/lab-devops-cloud-eks.git
     path: gitops/apps/squad-a/webserver-nginx-01/overlays/staging
-    targetRevision: dev
+    targetRevision: main
     kustomize:
       commonAnnotations:
         app/kustomize: "true"
