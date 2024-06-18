@@ -9,8 +9,8 @@ spec:
   project: squad-a
   source:
     repoURL: >-
-      https://github.com/leoviana00/lab-kustomize-app-demo.git
-    path: demo-app-argo/apps/squad-a/webserver-go-01/overlays/staging
+      https://github.com/leoviana00/lab-devops-cloud-eks.git
+    path: gitops/apps/squad-a/webserver-go-01/overlays/staging
     targetRevision: dev
     kustomize:
       commonAnnotations:

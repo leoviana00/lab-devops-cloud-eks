@@ -9,8 +9,8 @@ spec:
   project: default
   source:
     repoURL: >-
-      https://github.com/leoviana00/lab-kustomize-app-demo.git
-    path: demo-app-argo/apps/squad-a/webserver-nginx-01/overlays/default
+      https://github.com/leoviana00/lab-devops-cloud-eks.git
+    path: gitops/apps/squad-a/webserver-nginx-01/overlays/default
     targetRevision: main
     kustomize:
       commonAnnotations:
