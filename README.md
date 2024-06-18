@@ -96,5 +96,3 @@ Utilizar IAC
 - [Argo CD - Git Generator](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Git/)
 - [Argo CD - Generating Applications with ApplicationSet](https://argo-cd.readthedocs.io/en/stable/user-guide/application-set/)
 - [Argo Project](https://github.com/argoproj)
-- [Istio - Service Mesh](https://github.com/istio/istio/tree/master)
-- [Istio - Getting Started](https://istio.io/latest/docs/setup/getting-started/)

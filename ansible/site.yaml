@@ -45,6 +45,14 @@
   roles:
     - role: argocd_configure
 
+- name: Install Haproxy Ingress Controller
+  hosts: k8s-lab-master-1
+  remote_user: vagrant
+  become: true
+  tags: haproxy
+  roles:
+    - role: haproxy_configure
+
 - name: Installing ALB Controller
   gather_facts: false
   hosts: localhost
