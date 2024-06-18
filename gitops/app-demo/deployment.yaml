@@ -4,6 +4,7 @@ metadata:
   labels:
     run: echo
   name: echo
+  namespace: demo
 spec:
   replicas: 3
   selector:
