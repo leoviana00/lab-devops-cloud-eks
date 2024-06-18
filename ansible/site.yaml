@@ -27,15 +27,6 @@
   roles:
     - role: helm_configure
 
-- name: Install Istio
-  gather_facts: false
-  hosts: k8s-lab-master-1
-  remote_user: vagrant
-  become: true
-  tags: istio
-  roles:
-    - role: istio_configure
-
 - name: Install Argo CD
   gather_facts: false
   hosts: k8s-lab-master-1
