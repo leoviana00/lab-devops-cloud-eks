@@ -17,7 +17,7 @@ commonAnnotations:
 
 # patches using local files
 
-patches:
+patchesStrategicMerge:
 # Resource and Limits
 - deployment.yaml
 # Replicas count

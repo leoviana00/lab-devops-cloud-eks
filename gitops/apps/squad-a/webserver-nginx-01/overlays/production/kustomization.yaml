@@ -16,7 +16,7 @@ commonAnnotations:
   note: Production deployment of webserver-nginx-01
 
 
-patches:
+patchesStrategicMerge:
 # Resource and Limits
 - deployment.yaml
 # Replicas count
