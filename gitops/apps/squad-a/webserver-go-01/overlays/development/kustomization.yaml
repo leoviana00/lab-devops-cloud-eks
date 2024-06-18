@@ -7,7 +7,7 @@ bases:
 namespace: webserver-dev
 
 commonLabels:
-  env: hom
+  env: dev
 
 commonAnnotations:
   note: Development deployment of webserver-go-01
