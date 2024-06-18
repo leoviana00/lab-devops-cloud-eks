@@ -1,0 +1,23 @@
+---
+- name: Add helm repo Haproxy
+  kubernetes.core.helm_repository:
+      name: haproxytech
+      repo_url: "https://haproxytech.github.io/helm-charts"
+
+- name: Install Haproxy Chart
+  kubernetes.core.helm:
+      name: haproxy
+      namespace: ingress-controller
+      create_namespace: true
+      chart_ref: haproxytech/kubernetes-ingress
+
+- name: Get a list of all service haproxy
+  kubernetes.core.k8s_info:
+    api_version: v1
+    kind: Service
+    namespace: ingress-controller
+  register: service_list
+
+- name: Print Haproxy Service (Output)
+  debug:
+    var: service_list.resources[0].spec.ports[0]
