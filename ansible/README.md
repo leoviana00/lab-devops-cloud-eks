@@ -3,7 +3,7 @@
   <img alt="Ansible" src="../data/ansible.png">
 </p>
 
-## Invenyory
+## Inventory
 
 O inventário está separado por:
 
@@ -16,7 +16,7 @@ Ao rodar o playbook posso apontar para o `inventory` que eu quiser a aplicar a c
 ## Playbook
 
 - O Playbook principal é o `site.yaml` 
-- Através do `site.yaml` consigo fazer chamadas apontando para determinadas `roles` e definir tags para cada role, fcilitando assim o seu apontamento. 
+- Através do `site.yaml` consigo fazer chamadas apontando para determinadas `roles` e definir tags para cada role, facilitando assim o seu apontamento. 
 
 Exemplo: ansible-playbook -i inventory/kubeadm.yaml site.yaml --tags requirements
 
@@ -47,5 +47,3 @@ Exemplo: ansible-playbook -i inventory/kubeadm.yaml site.yaml --tags requirement
 ```bash
 ansible-playbook -i inventory/kubeadm.yaml site.yaml --tags requirements,kubeconfig,helm,argo,haproxy
 ```
-
-## Referências
