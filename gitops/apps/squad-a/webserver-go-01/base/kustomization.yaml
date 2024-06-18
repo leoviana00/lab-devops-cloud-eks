@@ -11,6 +11,5 @@ resources:
 - deployment.yaml
 - service.yaml
 - hpa.yaml
-- gateway.yaml
-- virtualservice.yaml
+- ingress.yaml
 - configmap.yaml

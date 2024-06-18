@@ -15,5 +15,5 @@ commonAnnotations:
 patchesStrategicMerge:
 - deployment.yaml
 - hpa.yaml
-- virtualservice.yaml
+- ingress.yaml
 - configmap.yaml

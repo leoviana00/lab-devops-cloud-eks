@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: webserver-go-01-ingress
+    namespace: wwebserver-prod
+    annotations:
+        haproxy.org/path-rewrite: "/"
+spec:
+    rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: webserver-go-01-svc
+              port:
+                number: 8080

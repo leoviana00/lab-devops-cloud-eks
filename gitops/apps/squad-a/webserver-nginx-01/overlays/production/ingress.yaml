@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: webserver-nginx-01-ingress
+    namespace: webserver-prod
+    annotations:
+        haproxy.org/path-rewrite: "/"
+spec:
+    rules:
+    - http:
+        paths:
+        - path: /prod
+          pathType: Prefix
+          backend:
+            service:
+              name: webserver-nginx-01-svc
+              port:
+                number: 8080
