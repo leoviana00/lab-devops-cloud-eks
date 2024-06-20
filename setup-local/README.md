@@ -9,7 +9,7 @@
 ## Setups locais
 
 - Setup 1: `Kubespray`
-- Setup 3: `Vagrant Kubeadm`
+- Setup 2: `Vagrant Kubeadm`
 
 ## Balanceador para gerenciamento do cluster
 
